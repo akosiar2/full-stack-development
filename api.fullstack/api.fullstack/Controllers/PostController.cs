@@ -1,6 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace api.fullstack.Controllers;
 
-public class PostController
+[ApiController]
+[Route("[controller]")]
+public class PostController : ControllerBase
 {
+
+    
     
 }
