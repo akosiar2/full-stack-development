@@ -1,4 +1,4 @@
-﻿namespace api.fullstack.Dto
+﻿namespace api.fullstack.Dtos
 {
     public class PostDto
     {

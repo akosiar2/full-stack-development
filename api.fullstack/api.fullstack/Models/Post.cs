@@ -1,4 +1,4 @@
-﻿namespace api.fullstack.Model
+﻿namespace api.fullstack.Models
 {
     public class Post
     {

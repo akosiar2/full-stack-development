@@ -1,6 +1,7 @@
 namespace api.fullstack;
 
 using Scalar.AspNetCore;
+using api.fullstack.Services;
 
 public class Program
 {
@@ -9,6 +10,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        builder.Services.AddScoped<Services.IPostService, Services.PostService>();
         builder.Services.AddHttpClient();
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
