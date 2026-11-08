@@ -9,31 +9,44 @@ const submitted = computed(() => (typeof route.query.q === 'string' ? route.quer
 const isLoading = ref(false)
 const errorMsg = ref<string | null>(null)
 const results = ref<Array<{ userId: number, posts: Array<{ id: number, title: string, body: string }> }>>([])
+const lastSearchQuery = ref('')
 
+onMounted(() => {
+  if (submitted.value && !isLoading.value) {
+    onSearch()
+  }
+})
 
 async function onSearch() {
   const q = query.value.trim()
-  router.replace({ query: q ? { q } : {} })
 
-  if(q == '') {
-    // Perform search logic here if needed
-    results.value = [] // Clear previous results
+  if (isLoading.value) return
+  if (q === lastSearchQuery.value) return
+
+  if (!q) {
+    results.value = []
+    lastSearchQuery.value = ''
     return
   }
 
   isLoading.value = true
+  lastSearchQuery.value = q
   errorMsg.value = null
 
-  try{
-    results.value = await $fetch(`http://localhost:5286/post/search?q=${encodeURIComponent(q)}`, { method: 'GET', responseType: 'json' })
-    
+  router.replace({ query: { q } })
+
+  try {
+    results.value = await $fetch(
+      `http://localhost:5286/post/search?q=${encodeURIComponent(q)}`,
+      { method: 'GET' }
+    )
   } catch (error) {
     errorMsg.value = 'An error occurred while searching.'
     results.value = []
+    lastSearchQuery.value = ''
   } finally {
-      isLoading.value = false
-    }
-
+    isLoading.value = false
+  }
 }
 </script>
 
